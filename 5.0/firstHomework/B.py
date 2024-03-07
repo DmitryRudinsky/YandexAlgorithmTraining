@@ -1,37 +1,38 @@
-# Чтение ввода
-score_first_match = input().split(':')
-score_second_match = input().split(':')
+firstGame = list(map(int, input().split(":")))
+secondGame = list(map(int, input().split(":")))
 location = int(input())
 
-# Преобразование строк в целые числа
-goals_first_match = int(score_first_match[0])
-goals_second_match = int(score_first_match[1])
-goals_current_match_first_team = int(score_second_match[0])
-goals_current_match_second_team = int(score_second_match[1])
 
-# Расчет необходимого количества голов
+sumGoalsFirstTeam = firstGame[0] + secondGame[0]
+sumGoalsSecondTeam = firstGame[1] + secondGame[1]
 if location == 1:
-    # Команда играет дома
-    total_goals_first_team = goals_first_match + goals_current_match_first_team
-    total_goals_second_team = goals_second_match + goals_current_match_second_team
+    houseGoalsFirstTeam, guestGoalsFirstTeam, guestGoalsSecondTeam, houseGoalsSecondTeam = (
+        firstGame[0], secondGame[0], firstGame[1], secondGame[1]
+    )
 else:
-    # Команда играет в гостях
-    total_goals_first_team = goals_current_match_first_team + goals_second_match
-    total_goals_second_team = goals_current_match_second_team + goals_first_match
-
-# Определение необходимого количества голов для победы
-if total_goals_first_team > total_goals_second_team:
-    # Команда уже впереди в общем счете, ей не нужно больше голов
-    required_goals = 0
-elif total_goals_first_team == total_goals_second_team:
-    # Команды сравниваются по гостевым голам
-    if goals_second_match > goals_first_match:
-        required_goals = 0
+    houseGoalsFirstTeam, guestGoalsFirstTeam, guestGoalsSecondTeam, houseGoalsSecondTeam = (
+        secondGame[0], firstGame[0], secondGame[1], firstGame[1]
+    )
+    
+    
+if sumGoalsFirstTeam > sumGoalsSecondTeam:
+    print(0)
+elif sumGoalsFirstTeam == sumGoalsSecondTeam == 0:
+    print(1)
+else:
+    if sumGoalsFirstTeam == sumGoalsSecondTeam:
+        if guestGoalsFirstTeam > guestGoalsSecondTeam:
+            print(0)
+        else:
+            print(1)
     else:
-        required_goals = goals_first_match - goals_second_match + 1
-else:
-    # Команда отстает в общем счете, ей нужно выровнять результат
-    required_goals = total_goals_second_team - total_goals_first_team + 1
-
-# Вывод результата
-print(required_goals)
+        if location == 1:
+            if guestGoalsFirstTeam + (sumGoalsSecondTeam - sumGoalsFirstTeam) > guestGoalsSecondTeam:
+                print(abs(sumGoalsSecondTeam - sumGoalsFirstTeam))
+            else:
+                print(abs(sumGoalsSecondTeam - sumGoalsFirstTeam + 1))
+        else:
+            if guestGoalsSecondTeam >= guestGoalsFirstTeam:
+                print(abs(sumGoalsSecondTeam - sumGoalsFirstTeam + 1))
+            else:
+                print(abs(sumGoalsSecondTeam - sumGoalsFirstTeam))
