@@ -2,8 +2,8 @@ field = [list("-" * 10)]
 for i in range(8):
     field.append(["-"] + list(input()) + ["-"])
 field.append(list("-" * 10))
-for i in range(10):
-    for j in range(10):
+for i in range(1, 10):
+    for j in range(1, 10):
         if field[i][j] == "R" or field[i][j] == "B":
             if field[i][j] == "R":
                 di = [1, -1, 0, 0]
