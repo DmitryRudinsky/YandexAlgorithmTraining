@@ -1,5 +1,4 @@
-NandK = list(map(int, input().split()))
-N, K = NandK[0], NandK[1]
+N, K = (map(int, input().split()))
 prises = list(map(int, input().split()))
 mx = 0
 for i in range(N):
