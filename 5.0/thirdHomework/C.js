@@ -1,22 +1,42 @@
 const { createInterface } = require("readline");
 
 function solveTestCase(test) {
-    let a = test[1].split(' ').map(Number);
-    a = a.sort((a, b) => a - b);
-    let res = 0;
-    console.log(a);
-    for (let i = 0; i < a.length; i++){
-        let currentNum = a[i];
-        let diffCnt = 1;
-        for(let j = i + 1; j < a.length; j++){
-            let diffNum = a[j];
-            if (diffNum - currentNum <= 1){
-                diffCnt += 1;
+    const n = test[0];
+    const a = test[1].split(' ').map(Number);
+    let sequences = {};
+    let keys = [];
+    for(elem of a){
+        //console.log(elem, sequences.hasOwnProperty(elem));
+        if(!sequences.hasOwnProperty(elem)){
+            sequences[elem] = 0;
+            keys.push(elem);
+        }
+        sequences[elem] += 1;
+    }
+    if(keys.length === 1){
+        console.log(0);
+    }else{
+        let answ = Number.MAX_SAFE_INTEGER;
+        let current = Number.MAX_SAFE_INTEGER;
+        keys.sort((a, b) => a - b);
+        for (let i = 1; i < keys.length; i++){
+            if(keys[i] - keys[i - 1] === 1){
+                current = n - (sequences[keys[i - 1]] + sequences[keys[i]]);
+            }
+            if (current < answ){
+                answ = current;
             }
         }
-        res = Math.max(diffCnt, res);
+
+        if(answ === Number.MAX_SAFE_INTEGER){
+            console.log(n - 1);
+        }else{
+            console.log(answ);
+        }
+
     }
-    console.log(a.length - res);
+
+
 }
 
 const lines = [];
